@@ -35,6 +35,11 @@
 </body>
 <script src="./js/jquery-1.12.4.min.js"></script>
 <script>
+    // 封装
+    // function user_login() {
+
+    // }
+    // 一、用户登录功能
     // 思路：
     // 1.给按钮添加点击事件
     // 1.1 点击后收集用户信息，并判断是否有效
@@ -63,7 +68,13 @@
         }
     })
 
-
+    // 二、进入页面之后从接口获取个人信息
+    $.get('http://192.168.172.82:8000/admin/getuser')
+        .then(
+            function (res) {
+                
+            }
+        )
 </script>
 
 </html>
