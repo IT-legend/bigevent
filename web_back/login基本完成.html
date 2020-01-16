@@ -36,28 +36,6 @@
 <script src="./js/jquery-1.12.4.min.js"></script>
 <script>
     // 封装
-    var user = {
-        login: function (name, psd) {
-            // $.post(url,数据).then(回调函数)
-            $.post('http://192.168.172.82:8000/admin/login', {
-                'user_name': name,
-                'password': psd
-            }).then(function (res) {
-                // console.log(res);
-                if (res.code === 200) {
-                    // alert('登陆成功')
-                    window.location.href = './index.html'
-                }
-                else {
-                    alert(res.msg)
-                }
-
-            })
-        }
-    }
-</script>
-<script>
-    // 封装
     // function user_login() {
 
     // }
@@ -74,8 +52,21 @@
             //记得加return，为空直接停止函数，节省内存
             return
         }
-        // 优化：语义化函数，用户登录
-        user.login(name, psd);
+        // $.post(url,数据).then(回调函数)
+        $.post('http://192.168.172.82:8000/admin/login', {
+            'user_name': name,
+            'password': psd
+        }).then(function (res) {
+            // console.log(res);
+            if (res.code === 200) {
+                // alert('登陆成功')
+                window.location.href = './index.html'
+            }
+            else {
+                alert(res.msg)
+            }
+
+        })
 
     })
 

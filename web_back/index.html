@@ -122,9 +122,11 @@
                 .then(
                     function (res) {
                         // console.log(res);
-                        // userName. = res.data.nickname
-                        $('#userName').text(res.data.nickname)
-                        $('.userImg').attr('src', res.data.user_pic)
+                        if (res.code === 200) {
+                            $('#userName').text(res.data.nickname)
+                            $('.userImg').attr('src', res.data.user_pic)
+                        }
+
                     }
                 )
         }
