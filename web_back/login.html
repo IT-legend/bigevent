@@ -39,7 +39,7 @@
     var user = {
         login: function (name, psd) {
             // $.post(url,数据).then(回调函数)
-            $.post('http://192.168.172.82:8000/admin/login', {
+            $.post('http://192.168.172.44:8000/admin/login', {
                 'user_name': name,
                 'password': psd
             }).then(function (res) {
@@ -57,10 +57,7 @@
     }
 </script>
 <script>
-    // 封装
-    // function user_login() {
 
-    // }
     // 一、用户登录功能
     // 思路：
     // 1.给按钮添加点击事件

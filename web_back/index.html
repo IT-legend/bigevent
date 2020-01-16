@@ -50,7 +50,8 @@
         <div class="user_center_link">
             <a href="user.html" onclick="setMenu(3,0)" target="main_frame">个人中心</a>
             <img class="userImg" src="images/2.jpg" alt="person">
-            <a href="#" id="logout"><i class="iconfont icon-tuichu"></i> 退出</a>
+            <!-- href="javascript:;"  作用是是阻止a标签跳转 -->
+            <a href="javascript:;" id="logout"><i class="iconfont icon-tuichu"></i> 退出</a>
         </div>
     </div>
 
@@ -110,42 +111,51 @@
         }
 
     </script>
-
-
     <script>
-        // 二、进入页面之后从接口获取个人信息
-        function getUser() {
-            // var userName = $('#userName')
-            // var userImg = $('.userImg')
+        //定义一个对象，其中有一个方法是退出
+        var user = {
+            logout: function () {
+                $.post('http://192.168.172.44:8000/admin/logout').then(function (res) {
+                    // console.log(res);
+                    if (res.code === 200) {
+                        alert('安全退出成功')
+                        window.location.href = './login.html'
+                    }
+                    else {
+                        alert(res.msg)
+                    }
 
-            $.get('http://192.168.172.82:8000/admin/getuser')
-                .then(
-                    function (res) {
+                })
+            },
+
+            getUser: function () {
+                $.get('http://192.168.172.44:8000/admin/getuser')
+                    .then(function (res) {
                         // console.log(res);
                         if (res.code === 200) {
                             $('#userName').text(res.data.nickname)
                             $('.userImg').attr('src', res.data.user_pic)
                         }
-
                     }
-                )
-        }
-        getUser();
-        // 三、退出登录功能
-        // 思路：给退出按钮a注册点击事件
-        $('#logout').click(function () {
-            $.post('http://192.168.172.82:8000/admin/logout').then(function (res) {
-                // console.log(res);
-                if (res.code === 200) {
-                    alert('安全退出成功')
-                    window.location.href = './login.html'
-                }
-                else {
-                    alert(res.msg)
-                }
+                    )
+            }
 
-            })
+        }
+    </script>
+
+    <script>
+
+
+        // 二、退出登录功能
+        // 思路：给退出按钮a注册点击事件
+        // 1.退出要请求退出接口
+        $('#logout').click(function () {
+            // 用户退出
+            user.logout()
         })
+
+        // 三、进入页面之后从接口获取个人信息
+        user.getUser()
     </script>
 </body>
 
