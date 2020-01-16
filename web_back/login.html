@@ -34,28 +34,9 @@
     </div>
 </body>
 <script src="./js/jquery-1.12.4.min.js"></script>
-<script>
-    // 封装
-    var user = {
-        login: function (name, psd) {
-            // $.post(url,数据).then(回调函数)
-            $.post('http://192.168.172.44:8000/admin/login', {
-                'user_name': name,
-                'password': psd
-            }).then(function (res) {
-                // console.log(res);
-                if (res.code === 200) {
-                    // alert('登陆成功')
-                    window.location.href = './index.html'
-                }
-                else {
-                    alert(res.msg)
-                }
-
-            })
-        }
-    }
-</script>
+<!-- 注意，这里要先引入config文件 -->
+<script src="./js/util/config.js"></script>
+<script src="./js/util/user.js"></script>
 <script>
 
     // 一、用户登录功能

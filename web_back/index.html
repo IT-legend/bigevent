@@ -111,37 +111,9 @@
         }
 
     </script>
-    <script>
-        //定义一个对象，其中有一个方法是退出
-        var user = {
-            logout: function () {
-                $.post('http://192.168.172.44:8000/admin/logout').then(function (res) {
-                    // console.log(res);
-                    if (res.code === 200) {
-                        alert('安全退出成功')
-                        window.location.href = './login.html'
-                    }
-                    else {
-                        alert(res.msg)
-                    }
-
-                })
-            },
-
-            getUser: function () {
-                $.get('http://192.168.172.44:8000/admin/getuser')
-                    .then(function (res) {
-                        // console.log(res);
-                        if (res.code === 200) {
-                            $('#userName').text(res.data.nickname)
-                            $('.userImg').attr('src', res.data.user_pic)
-                        }
-                    }
-                    )
-            }
-
-        }
-    </script>
+    <!-- 注意，这里要先引入config文件 -->
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/user.js"></script>
 
     <script>
 
