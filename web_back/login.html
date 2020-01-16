@@ -49,6 +49,7 @@
         var psd = $('#password').val().trim();
         if (name.length === 0 || psd.length === 0) {
             alert('不能为空')
+            return
         }
         else {
             $.post('http://192.168.172.82:8000/admin/login', {
@@ -68,13 +69,7 @@
         }
     })
 
-    // 二、进入页面之后从接口获取个人信息
-    $.get('http://192.168.172.82:8000/admin/getuser')
-        .then(
-            function (res) {
-                
-            }
-        )
+
 </script>
 
 </html>
