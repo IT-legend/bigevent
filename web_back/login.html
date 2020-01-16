@@ -23,11 +23,47 @@
             <form class="login_form">
                 <i class="iconfont icon-user"></i>
                 <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
+                <input id="username" type="text" class="input_txt" placeholder="用户名">
+                <input id="password" type="password" class="input_pass" placeholder="密码">
+                <!-- 注意：！！！ -->
+                <!-- 如果submit按钮在表单中，默认会有一个提交的动作 -->
+                <!-- 改为button即可 -->
+                <input id="btn" type="button" class="input_sub" value="登 录">
             </form>
         </div>
-    </div> 
+    </div>
 </body>
+<script src="./js/jquery-1.12.4.min.js"></script>
+<script>
+    // 思路：
+    // 1.给按钮添加点击事件
+    // 1.1 点击后收集用户信息，并判断是否有效
+    // 1.2 请求ajax接口
+    $('#btn').click(function () {
+        var name = $('#username').val().trim();
+        var psd = $('#password').val().trim();
+        if (name.length === 0 || psd.length === 0) {
+            alert('不能为空')
+        }
+        else {
+            $.post('http://192.168.172.82:8000/admin/login', {
+                'user_name': name,
+                'password': psd
+            }).then(function (res) {
+                // console.log(res);
+                if (res.code === 200) {
+                    // alert('登陆成功')
+                    window.location.href = './index.html'
+                }
+                else {
+                    alert(res.msg)
+                }
+
+            })
+        }
+    })
+
+
+</script>
+
 </html>
