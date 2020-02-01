@@ -56,10 +56,11 @@
     </div>
 
     <div class="main" id="main_body">
+        <!-- 新知识 -->
+        <!-- iframe标签会创建另一个容器，容器中可以引入另一个独立的html文件 -->
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
             scrolling="auto"></iframe>
     </div>
-
 
 
     <script>
@@ -114,20 +115,34 @@
     <!-- 注意，这里要先引入config文件 -->
     <script src="./js/util/config.js"></script>
     <script src="./js/util/user.js"></script>
-
     <script>
-
-
         // 二、退出登录功能
         // 思路：给退出按钮a注册点击事件
         // 1.退出要请求退出接口
         $('#logout').click(function () {
             // 用户退出
-            user.logout()
+            user.logout().then(function (res) {
+                // console.log(res);
+                if (res.code === 200) {
+                    alert('安全退出成功')
+                    window.location.href = './login.html'
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
+            return
         })
-
         // 三、进入页面之后从接口获取个人信息
-        user.getUser()
+        user.getUser().then(function (res) {
+            // console.log(res);
+            if (res.code === 200) {
+                $('#userName').text(res.data.nickname)
+                $('.userImg').attr('src', res.data.user_pic)
+            }
+            return
+        }
+        )
     </script>
 </body>
 

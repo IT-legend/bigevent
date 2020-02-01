@@ -38,7 +38,6 @@
 <script src="./js/util/config.js"></script>
 <script src="./js/util/user.js"></script>
 <script>
-
     // 一、用户登录功能
     // 思路：
     // 1.给按钮添加点击事件
@@ -53,11 +52,17 @@
             return
         }
         // 优化：语义化函数，用户登录
-        user.login(name, psd);
-
+        user.login(name, psd).then(function (res) {
+            // console.log(res);
+            if (res.code === 200) {
+                // alert('登陆成功')
+                window.location.href = './index.html'
+            }
+            else {
+                alert(res.msg)
+            }
+        });
     })
-
-
 </script>
 
 </html>
