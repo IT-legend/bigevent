@@ -30,11 +30,12 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <!-- 如果表单中的按钮没有type，则表单默认会提交 -->
+                        <button id="btnSearch" type="button" btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -109,7 +110,7 @@
     <!-- 模板引擎 第二步 写入固定结构 -->
     <!-- 对文章类别 -->
     <script id="tmp_category" type="text/html"> 
-        <option>所有分类</option>
+        <option value="">所有分类</option>
         {{each data item}}
             <option>{{item.name}}</option>
         {{/each}}
@@ -137,6 +138,9 @@
     <script>
         
         var curPage = 1; //全局变量，表示当前查询的第几页的数据
+        var curType = "";  //全局变量，表示当前查询的文章的类型编号
+        var curStatus = "";  //全局变量，表示当前查询的文章的状态
+        var curTotalPage; //记录上一次获取的总页数
         //1.获取所有的文章列表信息，并显示在下拉列表中
         // 思路：
         // 调用接口，获取后端数据，用arttemplate方法渲染到页面中
@@ -150,7 +154,7 @@
         })
         // 2.获取文章列表，并显示在表格中，调接口，获取数据，模板引擎渲染
         function getAndShow() {
-            article.get(curPage).then(function(res){
+            article.get(curPage,curType,curStatus).then(function(res){
             // console.log(res)
             if (res.code === 200){
                 // 2.1模板引擎渲染
@@ -158,6 +162,11 @@
                 $('#tb').html(htmlStr)
 
                 //2.2设置分页插件
+                // 如果前后两次获得的总页码不一样，则要把这个分页插件删掉重新设置一次，这样才能保证总页数显示正常
+                if (curTotalPage !== res.totalPage) {
+                    $('#pagination').twbsPagination('destroy')
+                    curTotalPage = res.totalPage
+                }
             $('#pagination').twbsPagination({
                 totalPages: res.totalPage,
                 visiblePages: 5,
@@ -171,18 +180,29 @@
                     // 点击按钮后重新获取点击的哪一页，然后重新获取一遍数据
                     curPage = page;
                     getAndShow();
-
                 }
             });
             }
             else{
                 alert(res.msg)
             }
-            
         })
         }
-
+        // 页面开始就要调用一次
         getAndShow();
+
+        // 3.文章的筛选
+        // 思路：获取用户的选择，调接口传入相应的数据
+        $('#btnSearch').click(function(){
+            //把页码重置为第一页
+            curPage = 1
+            // 把用户的选择保存到全局变量中
+            curType = $('#selCategory').val() //文章类型编号
+            curStatus = $('#selStatus').val() //文章状态 
+            // 再去做查询并显示
+            getAndShow();
+        })
+        
     </script>
 </body>
 

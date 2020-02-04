@@ -10,8 +10,10 @@
 var article = {
     // 1.获取文章列表接口
     // page代表当前要取出第几页的数据
-    get:function(page){
-        return $.get(APILIST.article_get,{'page':page})
+    // type当前文章类型编号
+    // status当前文章状态
+    get:function(page,type,status){
+        return $.get(APILIST.article_get,{'page':page,'type':type,'state':status})
     },
     // 2.添加文章类别分类
     // add:function(name,slug){
