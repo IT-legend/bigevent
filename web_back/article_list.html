@@ -72,8 +72,8 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
-                    <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                <ul class="pagination pagination-sm" id="pagination">
+                    <!-- <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
                     <li class="page-item"><a href="#" class="page-link">2</a></li>
@@ -83,7 +83,7 @@
                     <li class="page-item"><a href="#" class="page-link">6</a></li>
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li> -->
                 </ul>
             </div>
 
@@ -104,6 +104,8 @@
     <script src="./js/util/article.js"></script>
     <!-- 用模板引擎 第一步 引入js文件 -->
     <script src="./js/template-web.js"></script>
+    <!-- 引入分页插件 -->
+    <script src="./js/jquery.twbsPagination.js"></script>
     <!-- 模板引擎 第二步 写入固定结构 -->
     <!-- 对文章类别 -->
     <script id="tmp_category" type="text/html"> 
@@ -133,6 +135,8 @@
     </script>
 
     <script>
+        
+        var curPage = 1; //全局变量，表示当前查询的第几页的数据
         //1.获取所有的文章列表信息，并显示在下拉列表中
         // 思路：
         // 调用接口，获取后端数据，用arttemplate方法渲染到页面中
@@ -145,17 +149,40 @@
             $('#selCategory').html(htmlStr)
         })
         // 2.获取文章列表，并显示在表格中，调接口，获取数据，模板引擎渲染
-        article.get().then(function(res){
+        function getAndShow() {
+            article.get(curPage).then(function(res){
             // console.log(res)
             if (res.code === 200){
+                // 2.1模板引擎渲染
                 var htmlStr = template('tmp_table',res)
                 $('#tb').html(htmlStr)
+
+                //2.2设置分页插件
+            $('#pagination').twbsPagination({
+                totalPages: res.totalPage,
+                visiblePages: 5,
+                first:'首页',
+                last:'尾页',
+                prev:'上一页',
+                next:'下一页',
+                initiateStartPageClick:false, //初始化不用引入弹窗
+                onPageClick: function (event, page) {
+                    //重新获取第page页的数据
+                    // 点击按钮后重新获取点击的哪一页，然后重新获取一遍数据
+                    curPage = page;
+                    getAndShow();
+
+                }
+            });
             }
             else{
                 alert(res.msg)
             }
             
         })
+        }
+
+        getAndShow();
     </script>
 </body>
 

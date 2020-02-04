@@ -9,8 +9,9 @@
 
 var article = {
     // 1.获取文章列表接口
-    get:function(){
-        return $.get(APILIST.article_get)
+    // page代表当前要取出第几页的数据
+    get:function(page){
+        return $.get(APILIST.article_get,{'page':page})
     },
     // 2.添加文章类别分类
     // add:function(name,slug){
