@@ -12,15 +12,19 @@ var APILIST = {
     user_logout: BASEURL + '/admin/logout',
     user_getUser: BASEURL + '/admin/getuser',
 
-    // 二、文章列表模块
-    // 获取文章分类
+    // 二、文章类别管理模块
+    // 1.获取文章类别分类
     category_get: BASEURL + '/admin/category_search',
-    // 添加文章分类
+    // 2.添加文章类别分类
     category_add: BASEURL + '/admin/category_add',
-    // 删除文章分类
+    // 3.删除文章类别分类
     category_del: BASEURL + '/admin/category_delete',
-    // 编辑文章分类
+    // 4.编辑文章类别分类
     category_edit: BASEURL + '/admin/category_edit',
+
+    // 三、文章列表模块
+    // 1.文章搜索
+    article_get: BASEURL + '/admin/search',
 
 
     

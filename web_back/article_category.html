@@ -263,11 +263,11 @@
             else{
                 category.edit(id,new_name,new_slug).then(function(res){
                     // 5.1判断一下，code是200则代表成功
-                    if(res.code===200){
+                    if(res.code === 200){
                     // 5.2修改成功重新获取一下文章分类列表
-                        getAndShow()
+                    getAndShow()
                     // 5.3并且隐藏掉模态框
-                        $('#editModal').modal('hide')
+                    $('#editModal').modal('hide')
                     }
                     // 5.4不成功则弹窗提示
                     else{
