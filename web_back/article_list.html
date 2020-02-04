@@ -129,7 +129,7 @@
 
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:;" data-id="{{item.id}}"class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -203,6 +203,39 @@
             getAndShow();
         })
         
+        // 4.文章列表的删除
+        // 思路：给父容器事件委托，获取删除按钮id，调接口，根据反馈做后续
+        $('#tb').on('click','.del',function(){
+            // 初始写法
+            // if (confirm('你确定要删除吗？') === true) {
+            //         var id = $(this).attr('data-id')
+            //         article.del(id).then(function(res){
+            //         if(res.code === 200){
+            //             getAndShow()
+            //         }
+            //         else{
+            //             alert(res.msg)
+            //         }
+            //     })  
+            // }
+
+            // 加钱写法
+            // 原则：这样可以让代码尽早结束，节约内存
+            if (!confirm('你确定要删除吗？')) {
+                   return 
+            }
+            var id = $(this).attr('data-id')
+                    article.del(id).then(function(res){
+                    if(res.code === 200){
+                        // 删除成功，重新获取
+                        getAndShow()
+                    }
+                    else{
+                        alert(res.msg)
+                    }
+                })  
+            
+        })
     </script>
 </body>
 

@@ -25,6 +25,8 @@ var APILIST = {
     // 三、文章列表模块
     // 1.文章搜索
     article_get: BASEURL + '/admin/search',
+    // 2.文章删除
+    article_del: BASEURL + '/admin/article_delete',
 
 
     

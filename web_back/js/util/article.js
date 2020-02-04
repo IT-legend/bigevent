@@ -15,16 +15,17 @@ var article = {
     get:function(page,type,status){
         return $.get(APILIST.article_get,{'page':page,'type':type,'state':status})
     },
+
     // 2.添加文章类别分类
     // add:function(name,slug){
     //     return $.post(APILIST.category_add,{'name':name,'slug':slug})
     // },
-    // // 3.删除文章类别分类
-    // del:function(id){
-    //     return $.post(APILIST.category_del,{
-    //         'id':id
-    //     })
-    // },
+    // 2.删除文章
+    del:function(id){
+        return $.get(APILIST.article_del,{
+            'id':id
+        })
+    },
     // // 4.编辑文章类别分类
     // edit:function(id,name,slug){
     //     return $.post(APILIST.category_edit,{
