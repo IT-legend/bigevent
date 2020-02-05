@@ -16,11 +16,7 @@ var article = {
         return $.get(APILIST.article_get,{'page':page,'type':type,'state':status})
     },
 
-    // 2.添加文章类别分类
-    // add:function(name,slug){
-    //     return $.post(APILIST.category_add,{'name':name,'slug':slug})
-    // },
-    // 2.删除文章
+      // 2.删除文章
     del:function(id){
         return $.get(APILIST.article_del,{
             'id':id

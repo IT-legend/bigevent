@@ -112,7 +112,7 @@
     <script id="tmp_category" type="text/html"> 
         <option value="">所有分类</option>
         {{each data item}}
-            <option>{{item.name}}</option>
+            <option value="{{item.id}}">{{item.name}}</option>
         {{/each}}
     </script>
     <!-- 对文章列表 -->
@@ -149,7 +149,7 @@
             // 模板引擎arttemplate渲染分四步
             // 模板引擎 第三步 写入固定结构
             var htmlStr = template('tmp_category',res)
-            console.log(htmlStr)
+            
             $('#selCategory').html(htmlStr)
         })
         // 2.获取文章列表，并显示在表格中，调接口，获取数据，模板引擎渲染
@@ -160,7 +160,7 @@
                 // 2.1模板引擎渲染
                 var htmlStr = template('tmp_table',res)
                 $('#tb').html(htmlStr)
-
+                // console.log(htmlStr)
                 //2.2设置分页插件
                 // 如果前后两次获得的总页码不一样，则要把这个分页插件删掉重新设置一次，这样才能保证总页数显示正常
                 if (curTotalPage !== res.totalPage) {
@@ -199,6 +199,8 @@
             // 把用户的选择保存到全局变量中
             curType = $('#selCategory').val() //文章类型编号
             curStatus = $('#selStatus').val() //文章状态 
+            console.log(curType,curStatus);
+            
             // 再去做查询并显示
             getAndShow();
         })
