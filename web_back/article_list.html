@@ -128,7 +128,8 @@
             <td class="text-center">{{item.state}}</td>
 
             <td class="text-center">
-                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <!-- 这里要给a标签添加一个?id=用来跳转找到id -->
+                <a href="article_edit.html?id={{item.id}}" class="btn btn-default btn-xs">编辑</a>
                 <a href="javascript:;" data-id="{{item.id}}"class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>

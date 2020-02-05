@@ -15,7 +15,10 @@ var article = {
     get:function(page,type,status){
         return $.get(APILIST.article_get,{'page':page,'type':type,'state':status})
     },
-
+    // 4.根据id去获取文章的详情
+    getById:function(id){
+        return $.get(APILIST.article_get,{'id':id})
+    },
     // 2.删除文章
     del:function(id){
         return $.get(APILIST.article_del,{
