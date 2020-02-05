@@ -35,8 +35,9 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input name="cover" type="file" id="exampleInputFile">
+                        <input name="cover" type="file" id="cover">
                     </div>
+                    <img id="imgPreview" src="../web_back/images/2.jpg" style="width:200px;height:150px;border: 1px solid #ccc; margin-left: 15px; padding: 3px;" alt="">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
@@ -130,6 +131,34 @@
             else{
                 alert(res.msg)
             }
+        })
+
+        // 3.图片预览
+        $('#cover').change(function () {
+            // change用来监听用户在input上进行的操作
+            // this就是当前的dom元素
+            // console.log(this); 
+            // console.log(this.files); //当前用户所有选中的文件放在这里的集合中
+            // console.log(this.files[0]); //选中的第一个文件
+            
+            // 3.1.获取当前用户选中的那个文件
+            var curFile = this.files[0]
+            // 这里有bug，所以需要简单判断一下，如果获取的效果是true有效的，才执行后面的代码
+            if (curFile) {
+                // URL.createObjectURL(文件对象)是浏览器提供的一个方法，用于创建对象的 临时 链接地址
+                // 结果获取的是 blob:http://127.0.0.1:5500/2f161485-7e64-4064-a906-37af0ab30b23 临时的地址
+                var curFileUrl = URL.createObjectURL(curFile)
+                console.log(curFileUrl);
+    
+                // 3.2.将这个临时地址设置为imgPreview的src即可
+                $('#imgPreview').attr('src',curFileUrl)
+            }
+            else{
+                // 如果当前用户没有选中任何图片，则默认使用初始图片
+                $('#imgPreview').attr('src','../web_back/images/2.jpg')
+            }
+
+            
         })
     </script>
 
