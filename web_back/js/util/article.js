@@ -16,19 +16,21 @@ var article = {
         return $.get(APILIST.article_get,{'page':page,'type':type,'state':status})
     },
 
-      // 2.删除文章
+    // 2.删除文章
     del:function(id){
         return $.get(APILIST.article_del,{
             'id':id
         })
     },
-    // // 4.编辑文章类别分类
-    // edit:function(id,name,slug){
-    //     return $.post(APILIST.category_edit,{
-    //         'id':id,
-    //         'name':name,
-    //         'slug':slug
-    //     })
-    // },
+    //3.添加文章
+    add:function(fd){
+        return $.ajax({
+            url: APILIST.article_add,
+            type: 'post',
+            data: fd,
+            processData:false, //不允许处理数据
+            contentType:false, //不设置请求头
+        })
+    }
 
 }
