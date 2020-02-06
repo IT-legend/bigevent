@@ -18,6 +18,12 @@ var article = {
     getLastest:function(){
         return $.get(APILIST.article_last)
     },
+    // 4.在列表页中，获取文章列表数据
+    // type：文章类型编号
+    // page：当前第几页
+    getList:function(type,page){
+        return $.get(APILIST.article_get,{'type':type,'page':page})
+    }
 
     
 
