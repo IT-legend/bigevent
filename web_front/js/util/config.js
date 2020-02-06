@@ -9,17 +9,14 @@ var BASEURL = 'http://localhost:8000'
 // 3.老师买的地址，只有在老师运行后端时可用
 // var BASEURL = 'http://39.99.130.17:8000' 
 
-
 // 用来保存所有的接口信息
 var APILIST = {
-    
-    // 一、文章类别管理模块
     // 1.获取文章类别分类
     category_get: BASEURL + '/category',
+    // 2.获取焦点图
+    article_get: BASEURL + '/search',
+
    
-    // 二、文章列表模块
-    // 1.文章搜索
-    article_get: BASEURL + '/admin/search',
     
 
     
