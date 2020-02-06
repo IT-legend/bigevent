@@ -10,9 +10,15 @@ var article = {
         // 因为只要5条数据，直接设置只获取5条即可
         return $.get(APILIST.article_get,{'perpage':5})
     },
+    // 2.获取一周热门排行
     getRank:function(type){
         return $.get(APILIST.article_rank,{'type':type})
     },
+    // 3.获取最新资讯
+    getLastest:function(){
+        return $.get(APILIST.article_last)
+    },
+
     
 
 }
