@@ -8,10 +8,7 @@
     <title>大事件-列表页</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.pagination.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.pagination.min.js"></script>
 </head>
 
 <body>
@@ -31,23 +28,13 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
+                <ul id="level_two_menu" class="level_two">
                     <li class="up"></li>
-                    <li><a href="#">最 新</a></li>
-                    <li><a href="#">科 技</a></li>
-                    <li><a href="#">股 市</a></li>
-                    <li><a href="#">商 品</a></li>
-                    <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
+                   
                 </ul>
             </div>
-            <ul class="left_menu fl">
-                <li><a href="#">最 新</a></li>
-                <li><a href="#">科 技</a></li>
-                <li><a href="#">股 市</a></li>
-                <li><a href="#">商 品</a></li>
-                <li><a href="#">外 汇</a></li>
-                <li><a href="#">公 司</a></li>
+            <ul id="left_menu" class="left_menu fl">
+                
             </ul>
             <ul class="right_menu fr">
                 <li><a href="#">科技专题</a></li>
@@ -136,7 +123,7 @@
             </div>
 
             <div id="pagination" class="page"></div>
-            <script>
+            <!-- <script>
                 $(function() {
                     $("#pagination").pagination({
                         currentPage: 2,
@@ -146,7 +133,7 @@
                         }
                     });
                 });
-            </script>
+            </script> -->
 
         </div>
         <div class="right_con setfl">
@@ -227,5 +214,43 @@
     </div>
 
 </body>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/category.js"></script>
+    <script src="./js/util/article.js"></script>
+    <!-- 文章类型的模版 
+    把当前列表中对应的文章编号高亮显示
+    如果id=1，则科学栏目是处于选中高亮状态
+    -->
+    <script id="cate" type="text/html">
+    {{each data item}}
+        <!-- 这里调用下面补充的属性res.id（当前类别编号）方法，点击时获取哪个id值，就给它添加高亮类名 -->
+        {{if item.id == curId}}
+            <li class="cur"><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{else}}
+            <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{/if}}
+    {{/each}}
+    </script>
 
+    <script>
+        // 1.从地址栏中获取id值
+        var id = window.location.search.substr(4)
+        // 2.显示导航菜单，并把当前文章的类别高亮显示
+        // 获取文章的类型并显示
+        category.get().then(function (res) {
+            // 实现高亮，这里需要补一个值
+            // 补充的这个属性用来保存当前的类别编号，方便在上面模板引擎内部来获取这个编号，用以添加高亮类名
+            res.curId = id
+            // console.log(res);
+            //渲染结构
+            var htmlStr = template('cate',res)
+            //替换整个容器中的html
+            $('#left_menu').html(htmlStr)
+            // 追加一些内容
+            $('#level_two_menu').append(htmlStr)
+        })
+
+    </script>
 </html>
