@@ -15,6 +15,9 @@ var APILIST = {
     category_get: BASEURL + '/category',
     // 2.获取焦点图
     article_get: BASEURL + '/search',
+    // 3.获取一周热门排行列表
+    article_rank: BASEURL + '/rank',
+
 
    
     
