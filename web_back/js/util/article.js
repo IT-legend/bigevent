@@ -34,6 +34,16 @@ var article = {
             processData:false, //不允许处理数据
             contentType:false, //不设置请求头
         })
+    },
+    // 5.保存文章编辑 formDate对象
+    edit:function(fd){
+        return $.ajax({
+            url: APILIST.article_edit,
+            type: 'post',
+            data: fd,
+            processData:false, //不允许处理数据
+            contentType:false, //不设置请求头
+        })
     }
 
 }

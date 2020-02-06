@@ -23,24 +23,24 @@
             文章编辑
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form id="form" class="form-horizontal article_form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" value="文章标题文字">
+                        <input type="text" class="form-control" id="title" name="title" value="文章标题文字">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
                         <img src="images/pic06.jpg" id="previewImg" class="article_cover">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" id="exampleInputFile" name="cover">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="type">
+                        <select class="form-control" id="type" name="type">
                             <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
@@ -54,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" value="2019-05-17" id="dateinput">
+                            <input type="text" name="date" class="form-control" value="2019-05-17" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -71,7 +71,8 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
+                        <!-- 必须把默认的submit改成button防止页面提交时的跳转 -->
+                        <button type="button" id="saveBtn" class="btn btn-success">修改</button>
                     </div>
                 </div>
             </form>
@@ -93,20 +94,20 @@
     // 1.实现文章的编辑功能
     // 思路：先发ajax求类别，求到类别之后再发ajax求详情，所以定义了两个方法，所以求类别的getAndShowCategory()方法要在getAndShow()之前调用
 
-    // 1.1获取当前要编辑的文章的id
-    // 1.1.1window.location:是一个bom对象，保存浏览器当前页面的url信息，它是一个对象
-    // 1.1.2window.location.search:获取当前页面的url信息中的查询字符串的值---?id=1580917769336
-    // 1.1.3取到?id=1580917769336之后需要截取其中的id数值，用substr(起始下标，取出多长)方法，如果省略第二个参数就是取出从起点开始到结束的全部
+    // 1.2获取当前要编辑的文章的id
+    // 1.3window.location:是一个bom对象，保存浏览器当前页面的url信息，它是一个对象
+    // 1.4window.location.search:获取当前页面的url信息中的查询字符串的值---?id=1580917769336
+    // 1.5取到?id=1580917769336之后需要截取其中的id数值，用substr(起始下标，取出多长)方法，如果省略第二个参数就是取出从起点开始到结束的全部
     // window.location.search.substr()
 
-    // 1.2根据id去取回这篇文章的信息，并显示在页面中
-    // 1.2.1这里的数值是从第四位开始的，所以直接从第四位开始将后面的全部截取
+    // 2根据id去取回这篇文章的信息，并显示在页面中
+    // 2.1这里的数值是从第四位开始的，所以直接从第四位开始将后面的全部截取
     var id = window.location.search.substr(4)
     // 调用显示标题、封面、数据、富文本框
     // getAndShow(id)
     // 调用显示类别
     getAndShwoCategory()
-    // 1.2.2接下来要用接口获取信息
+    // 2.2接下来要用接口获取信息
     // 获取标题、封面、数据、富文本框内容
     function getAndShow(id) {
         article.getById(id).then(function (res) {
@@ -155,6 +156,25 @@
             }
         })
     }
-    // 1.3.实现保存编辑
+    
+    // 3.实现保存编辑
+    $('#saveBtn').click(function () {
+        // 做保存
+        // 收集数据
+        var fd = new FormData(document.getElementById('form'))
+        // 想要获取formdata中的数据，必须把name值跟ajax要获取的参数一一对应
+        // 追加id
+        fd.append('id',id)
+        fd.set('content',tinymce.activeEditor.getContent())
+        // 调接口
+        article.edit(fd).then(function (res) {
+            if (res.code === 200) {
+                alert('保存成功')
+            }
+            else{
+                alert(res.msg)
+            }
+        })
+    })
 </script>
 </html>

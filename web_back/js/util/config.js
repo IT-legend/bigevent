@@ -3,7 +3,7 @@
 
 //所有接口的基地址
 // 1.自己的地址
-// var BASEURL = 'http://192.168.5.4:8000' 
+// var BASEURL = 'http://192.168.5.5:8000' 
 // 2.如果当前服务就就是在自己的电脑上，就可以直接写成localhost
 var BASEURL = 'http://localhost:8000' 
 // 3.老师买的地址，只有在老师运行后端时可用
@@ -34,6 +34,8 @@ var APILIST = {
     article_del: BASEURL + '/admin/article_delete',
     // 3.添加文章
     article_add: BASEURL + '/admin/article_publish',
+    // 4.保存文章的修改
+    article_edit: BASEURL + '/admin/article_edit',
 
 
     
