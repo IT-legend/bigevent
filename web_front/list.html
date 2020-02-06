@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>大事件-列表页</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -51,21 +52,11 @@
             </div>
 
             <div id="list">
-                
+                <!-- 用来显示文章列表的容器 -->
             </div>
-
-            <div id="pagination" class="page"></div>
-            <!-- <script>
-                $(function() {
-                    $("#pagination").pagination({
-                        currentPage: 2,
-                        totalPage:8,
-                        callback: function(current) {
-                            alert('ok!');
-                        }
-                    });
-                });
-            </script> -->
+            <!-- 分页 -->
+            <ul id="pagination" class="pagination-sm"></ul>
+            
 
         </div>
         <div class="right_con setfl">
@@ -147,6 +138,7 @@
 
 </body>
     <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/jquery.twbsPagination.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/util/config.js"></script>
     <script src="./js/util/category.js"></script>
@@ -209,5 +201,19 @@
             console.log(htmlStr);
             $('#list').html(htmlStr) 
         })
+
+        // 分页的基础代码
+        $('#pagination').twbsPagination({
+            initiateStartPageClick:false,
+            totalPages: 46, //总页数
+            visiblePages: 6, //可见页数
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            onPageClick:function(event,page) {
+                alert(page);
+            }
+        });
     </script>
 </html>
