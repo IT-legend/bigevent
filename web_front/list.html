@@ -137,6 +137,8 @@
     <script src="./js/util/config.js"></script>
     <script src="./js/util/category.js"></script>
     <script src="./js/util/article.js"></script>
+    <!-- 引入懒加载js文件 -->
+    <script src="./js/lazyload.js"></script>
     <!-- 1.文章列表获取以及高亮显示当前类别 
     把当前列表中对应的文章编号高亮显示
     如果id=1，则科学栏目是处于选中高亮状态
@@ -155,7 +157,8 @@
     <script id="tmpNews" type="text/html">
         {{each data item}}
             <div class="common_news_list">
-                    <a href="./article.html?id={{item.id}}" class="list_pic"><img src="{{item.cover}}" alt=""></a>
+                    <a href="./article.html?id={{item.id}}" class="list_pic">
+                        <img class="img" data-src="{{item.cover}}" src="./images/loading.png" alt=""></a>
                     <h4><a href="./article.html?id={{item.id}}">{{item.title}}</a></h4>
                     <p>{{item.content}}</p>
                     <div class="new_info">
@@ -181,6 +184,7 @@
             {{/if}}
         {{/each}}
     </script>
+    
     <script>
         // 1.文章列表获取以及高亮显示当前类别
         // 1.2从地址栏中获取id值
@@ -220,7 +224,8 @@
             var htmlStr = template('tmpNews',res)
             console.log(htmlStr);
             $('#list').html(htmlStr) 
-        
+            // 启动懒加载
+            $('.img').lazyload()
         // 2.5 优化：如果只有一页，则不需要显示分页条
         if(res.pages <=1){
             resturn
