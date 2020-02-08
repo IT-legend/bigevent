@@ -13,7 +13,7 @@
 
 <body>
     <div class="header">
-        <a href="#" class="logo fl"><img src="images/logo.png" alt="logo"></a>
+        <a href="./index.html" class="logo fl"><img src="images/logo.png" alt="logo"></a>
         <div class="search_form fl">
             <input type="text" class="search_txt" placeholder="黑洞照片">
             <button class="search_btn"><i class="fa fa-search"></i></button>
@@ -58,10 +58,10 @@
             <div class="breadcrumb">
                 当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
             </div>
-            <h3 class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info">杰克 发布于 2019-05-08 07:08:46&nbsp;&nbsp;&nbsp;分类: 奇趣事&nbsp;&nbsp;&nbsp;阅读:
-                (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
-            <div class="article_con">
+            <h3 id="title" class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
+            <div class="article_info"><span id="author"></span> 发布于 <span id="date"></span>&nbsp;&nbsp;&nbsp;分类: <span id="type_name"></span>&nbsp;&nbsp;&nbsp;阅读:
+                (<span id="read"></span>)&nbsp;&nbsp;&nbsp;评论: (<span id="comment"></span>)</div>
+            <div id="content" class="article_con">
 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
@@ -76,8 +76,8 @@
 
             </div>
             <div class="article_links">
-                上一篇： <a href="#">世界第一台可以玩游戏的冰箱</a><br>
-                下一篇： <a href="#">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
+                上一篇： <a href="#" id="prev">世界第一台可以玩游戏的冰箱</a><br>
+                下一篇： <a href="#" id="next">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
             </div>
 
             <form action="" class="comment_form">
@@ -206,5 +206,33 @@
     </div>
 
 </body>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/article.js"></script>
+    <script>
+        // 1.获取从地址栏中传入的文章编号
+        var id = location.search.substr(4)
+        // 2.调用接口，获取文章详情，渲染
+        article.getDetail(id).then(function(res){
+            console.log(res);
+            if(res.code === 200){
+                var t = res.data
+                $('#author').html(t.author)
+                $('#comment').html(t.comment)
+                $('#content').html(t.content)
+                $('#date').html(t.date)
+                $('#read').html(t.read)
+                $('#title').html(t.title)
+                $('#type_name').html(t.type_name)
+                // 上下文章导航
+                $('#prev').attr('href','./article.html?id='+t.prev.id)
+                $('#prev').text(t.prev.title)
 
+                $('#next').attr('href','./article.html?id='+t.next.id)
+                $('#next').text(t.next.title)
+
+            }
+        })
+
+    </script>
 </html>

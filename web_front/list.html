@@ -155,8 +155,8 @@
     <script id="tmpNews" type="text/html">
         {{each data item}}
             <div class="common_news_list">
-                    <a href="#" class="list_pic"><img src="{{item.cover}}" alt=""></a>
-                    <h4><a href="#">{{item.title}}</a></h4>
+                    <a href="./article.html?id={{item.id}}" class="list_pic"><img src="{{item.cover}}" alt=""></a>
+                    <h4><a href="./article.html?id={{item.id}}">{{item.title}}</a></h4>
                     <p>{{item.content}}</p>
                     <div class="new_info">
                         <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{item.read}}
@@ -171,13 +171,13 @@
     <script id="tmpRank" type="text/html">
         {{each data item idx}}
             {{if idx == 0}}
-                <li><span class="first">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+                <li><span class="first">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else if idx == 1}}
-                <li><span class="second">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+                <li><span class="second">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else if idx == 2}}
-                <li><span class="third">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+                <li><span class="third">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else}}
-                <li><span>{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+                <li><span>{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{/if}}
         {{/each}}
     </script>

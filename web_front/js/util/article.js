@@ -23,6 +23,10 @@ var article = {
     // page：当前第几页
     getList:function(type,page){
         return $.get(APILIST.article_get,{'type':type,'page':page})
+    },
+    // 5.获取文章详情
+    getDetail:function (id) {
+        return $.get(APILIST.article_detail,{'id':id})
     }
 
     

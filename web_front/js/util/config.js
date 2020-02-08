@@ -19,6 +19,8 @@ var APILIST = {
     article_rank: BASEURL + '/rank',
     // 4.最新资讯模块
     article_last: BASEURL + '/lastest',
+    // 5.获取文章详情
+    article_detail: BASEURL + '/article',
 
 
    
