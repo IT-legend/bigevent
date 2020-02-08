@@ -184,6 +184,11 @@
     <script src="./js/util/config.js"></script>
     <script src="./js/util/article.js"></script>
     <script src="./js/util/comment.js"></script>
+    <!-- //引入日期时间的js库  dayjs -->
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+    <!-- 1.评论列表的展示 -->
     <script id="tmp" type="text/html">
         {{each data item}}
         <div class="comment_detail_list">
@@ -196,6 +201,10 @@
         {{/each}}
     </script>
     <script>
+        dayjs.locale('zh-cn'); //全局中文设置
+        // 使用插件
+        dayjs.extend(dayjs_plugin_relativeTime);
+
         // 1.获取从地址栏中传入的文章编号
         var id = location.search.substr(4)
 
@@ -256,16 +265,27 @@
             })
         })
         
-        // 4.展示评论
+        // 4.获取并展示评论
         function getComment() {
             comment.get(id).then(function (res) {
                 console.log(res);
                 if (res.code === 200) {
+                    //对每一条留言中的dt进行格式化
+                    // 具体就是从时间戳转成相对时间
+                    res.data.forEach(function(item) {
+                        // item.relativeTime = 123
+                        item.dt = getTime(item.dt)
+                    })
+                    // 模板引擎渲染
                     var htmlStr = template('tmp',res)
                     $('#comment_list').html(htmlStr)
                 }
             })
         }
-    
+
+        // 5.创建一个函数，专门把时间戳转成相对时间
+        function getTime(dt) {
+            return dayjs(dt).fromNow()
+        }
     </script>
 </html>
