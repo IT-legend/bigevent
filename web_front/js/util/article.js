@@ -27,7 +27,9 @@ var article = {
     // 5.获取文章详情
     getDetail:function (id) {
         return $.get(APILIST.article_detail,{'id':id})
-    }
+    },
+
+
 
     
 

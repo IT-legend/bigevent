@@ -83,14 +83,14 @@
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input type="text" placeholder="请输入用户名" id="comment_name" class="comment_name">
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea placeholder="请发表您的评论" class="comment_input" id="comment_content"></textarea>
                 </div>
                 <div class="form_group">
-                    <input type="submit" name="" value="评 论" class="comment_sub"></div>
+                    <input type="button" name="" value="评 论" id="btn" class="comment_sub"></div>
             </form>
 
             <div class="comment_count">
@@ -209,9 +209,11 @@
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/util/config.js"></script>
     <script src="./js/util/article.js"></script>
+    <script src="./js/util/comment.js"></script>
     <script>
         // 1.获取从地址栏中传入的文章编号
         var id = location.search.substr(4)
+
         // 2.调用接口，获取文章详情，渲染
         article.getDetail(id).then(function(res){
             console.log(res);
@@ -225,14 +227,46 @@
                 $('#title').html(t.title)
                 $('#type_name').html(t.type_name)
                 // 上下文章导航
-                $('#prev').attr('href','./article.html?id='+t.prev.id)
-                $('#prev').text(t.prev.title)
-
-                $('#next').attr('href','./article.html?id='+t.next.id)
-                $('#next').text(t.next.title)
+                // 有的文章是第一篇或者最后一篇，需要判断一下，否则会报错
+                if (t.prev) {
+                    $('#prev').attr('href','./article.html?id='+t.prev.id)
+                    $('#prev').text(t.prev.title)
+                }
+                else {
+                    $('#prev').text('无')
+                }
+                if (t.next) {
+                    $('#next').attr('href','./article.html?id='+t.next.id)
+                    $('#next').text(t.next.title)
+                    
+                }
+                else {
+                    $('#next').text('无')
+                }
 
             }
         })
 
+        // 3.添加评论
+        $('#btn').click(function () {
+            // alert(1)
+            // 收集用户输入的信息
+            var name = $('#comment_name').val().trim()
+            var content = $('#comment_content').val().trim()
+            if (name.length === 0 || content.length === 0) {
+              alert('输入不能为空')
+              return  
+            }
+            comment.add(name,content,id).then(function (res) {
+                console.log(res);
+                if (res.code === 200) {
+                    // 评论成功，清空评论区
+                    $('#comment_name').val('')
+                    $('#comment_content').val('')
+                    // 重新加载评论并显示
+                }
+                
+            })
+        })
     </script>
 </html>

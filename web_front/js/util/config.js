@@ -21,6 +21,8 @@ var APILIST = {
     article_last: BASEURL + '/lastest',
     // 5.获取文章详情
     article_detail: BASEURL + '/article',
+    // 6.添加评论
+    comment_add:BASEURL + '/post_comment',
 
 
    
