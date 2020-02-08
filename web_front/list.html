@@ -48,7 +48,7 @@
         <div class="left_con setfr">
 
             <div class="list_title">
-                <h3>科 技</h3>
+                <h3 id="cateName">科 技</h3>
             </div>
 
             <div id="list">
@@ -198,6 +198,12 @@
             $('#left_menu').html(htmlStr)
             // 追加一些内容
             $('#level_two_menu').append(htmlStr)
+            // 与当前id进行比较，找到当前要显示在页面上的栏目标题
+            res.data.forEach(function(item){
+                if(item.id == id){
+                    $('#cateName').html(item.name)
+                }
+            })
         })
 
         // 2.实现列表页内容的显示
@@ -241,7 +247,7 @@
 
         }
         
-        // 3.列表页，热门排行
+        // 3.列表页，热门排行 id就是当前类别的编号，传入即可
         article.getRank(id).then(function(res){
             // console.log(res);
             if (res.code === 200) {
@@ -254,5 +260,6 @@
             }
         })
         
+
     </script>
 </html>
