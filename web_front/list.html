@@ -192,28 +192,47 @@
         })
 
         // 2.实现列表页内容的显示
-        // 根据当前类型id取出文章信息并渲染，这里有分页
-        var curPage = 1; //设置一个全局变量：当前要取回来第几页的文章
-        article.getList(id,curPage).then(function (res) {
+        // 2.1 根据当前类型id取出文章信息并渲染，这里有分页
+        var curPage = 1; //2.2设置一个全局变量：当前要取回来第几页的文章，方便下面分页的调用
+        getAndShow();
+         
+        function getAndShow(){
+
+            article.getList(id,curPage).then(function (res) {
             // console.log(res);
-            // 数据渲染-模板引擎
+           // 2.3 res.pages表示当前查询条件得到的数据的总页数
+
+            //2.4 数据渲染-模板引擎
             var htmlStr = template('tmpNews',res)
             console.log(htmlStr);
             $('#list').html(htmlStr) 
-        })
-
-        // 分页的基础代码
+        
+        // 2.5 优化：如果只有一页，则不需要显示分页条
+        if(res.pages <=1){
+            resturn
+        }
+        // 2.6 分页插件的基础代码
         $('#pagination').twbsPagination({
-            initiateStartPageClick:false,
-            totalPages: 46, //总页数
-            visiblePages: 6, //可见页数
+            initiateStartPageClick:false, //插件初始化时不要触发第一次click事件
+            totalPages: res.pages, //总页数
+            visiblePages: 6, //可见页数的按钮数量
             first:'首页',
             prev:'上一页',
             next:'下一页',
             last:'尾页',
             onPageClick:function(event,page) {
-                alert(page);
+                // 2.7 page是当前用户点击的页码
+                // 点击后更新全局变量，重新查询
+                // alert(page);
+                curPage = page
+                //2.8 再次调用方法
+                getAndShow();
             }
         });
+        })
+
+        }
+        
+        
     </script>
 </html>
