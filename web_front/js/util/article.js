@@ -10,7 +10,7 @@ var article = {
         // 因为只要5条数据，直接设置只获取5条即可
         return $.get(APILIST.article_get,{'perpage':5})
     },
-    // 2.获取一周热门排行
+    // 2.获取一周热门排行 type文章类别编号，主页不需要，列表页需要
     getRank:function(type){
         return $.get(APILIST.article_rank,{'type':type})
     },
