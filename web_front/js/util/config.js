@@ -23,6 +23,8 @@ var APILIST = {
     article_detail: BASEURL + '/article',
     // 6.添加评论
     comment_add:BASEURL + '/post_comment',
+    // 7.获取评论列表
+    comment_get:BASEURL + '/get_comments',
 
 
    

@@ -97,35 +97,8 @@
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">乔</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">段</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">虚</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">王</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
+            <div id="comment_list" class="comment_list_con">
+                
             </div>
         </div>
         <div class="right_con setfl">
@@ -207,9 +180,21 @@
 
 </body>
     <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
     <script src="./js/util/config.js"></script>
     <script src="./js/util/article.js"></script>
     <script src="./js/util/comment.js"></script>
+    <script id="tmp" type="text/html">
+        {{each data item}}
+        <div class="comment_detail_list">
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+            <div class="comment_text fl">
+                {{item.content}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
     <script>
         // 1.获取从地址栏中传入的文章编号
         var id = location.search.substr(4)
@@ -247,6 +232,7 @@
             }
         })
 
+        getComment() //4.获取并展示评论
         // 3.添加评论
         $('#btn').click(function () {
             // alert(1)
@@ -264,9 +250,22 @@
                     $('#comment_name').val('')
                     $('#comment_content').val('')
                     // 重新加载评论并显示
+                    getComment()
                 }
                 
             })
         })
+        
+        // 4.展示评论
+        function getComment() {
+            comment.get(id).then(function (res) {
+                console.log(res);
+                if (res.code === 200) {
+                    var htmlStr = template('tmp',res)
+                    $('#comment_list').html(htmlStr)
+                }
+            })
+        }
+    
     </script>
 </html>
