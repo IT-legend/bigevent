@@ -44,15 +44,15 @@
     // 2.点击后收集用户信息，并判断是否有效
     // 3.请求ajax接口，根据接口反馈继续下一步
     $('#btn').click( () => {
-        let name = $('#username').val().trim();
-        let psd = $('#password').val().trim();
-        if (name.length === 0 || psd.length === 0) {
+        let user_name = $('#username').val().trim();
+        let password = $('#password').val().trim();
+        if (user_name.length === 0 || password.length === 0) {
             alert('不能为空')
             //记得加return，为空直接停止函数，节省内存
             return
         }
         // 优化：语义化函数，用户登录
-        user.login(name, psd).then( res => {
+        user.login(user_name, password).then( res => {
             // console.log(res);
             //解构赋值优化
             let {code,msg} = res

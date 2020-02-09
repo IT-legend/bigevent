@@ -5,22 +5,14 @@
 // 把所有与用户有关的方法写在一个对象中，并且放入一个js文件中
 
 
-var user = {
+const user = {
     // 一、用户登录
-    login: function (name, psd) {
-        // $.post(url,数据).then(回调函数)
-        //！！！这里通过return将$post获取到的数据
-        return $.post(APILIST.user_login, {
-            'user_name': name,
-            'password': psd
-        })
-    },
+    // $.post(url,数据).then(回调函数)
+    //！！！这里通过return将$post获取到的数据
+    login:(user_name, password) => $.post(APILIST.user_login, {user_name,password}),
     // 二、用户退出
-    logout: function () {
-        return $.post(APILIST.user_logout)
-    },
+    logout:() => $.post(APILIST.user_logout),
     // 三、获取用户信息
-    getUser: function () {
-        return $.get(APILIST.user_getUser)
-    }
+    getUser:() => $.get(APILIST.user_getUser)
+    
 }
