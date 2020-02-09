@@ -119,9 +119,9 @@
         // 二、退出登录功能
         // 思路：给退出按钮a注册点击事件
         // 1.退出要请求退出接口
-        $('#logout').click(function () {
+        $('#logout').click( () => {
             // 用户退出
-            user.logout().then(function (res) {
+            user.logout().then( res => {
                 // console.log(res);
                 if (res.code === 200) {
                     alert('安全退出成功')
@@ -134,7 +134,7 @@
             return
         })
         // 三、进入页面之后从接口获取个人信息
-        user.getUser().then(function (res) {
+        user.getUser().then( res => {
             // console.log(res);
             if (res.code === 200) {
                 $('#userName').text(res.data.nickname)
