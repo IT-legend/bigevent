@@ -123,12 +123,14 @@
             // 用户退出
             user.logout().then( res => {
                 // console.log(res);
-                if (res.code === 200) {
+                //解构赋值优化
+                let {code,msg} = res
+                if (code === 200) {
                     alert('安全退出成功')
                     window.location.href = './login.html'
                 }
                 else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
             return
@@ -136,9 +138,10 @@
         // 三、进入页面之后从接口获取个人信息
         user.getUser().then( res => {
             // console.log(res);
-            if (res.code === 200) {
-                $('#userName').text(res.data.nickname)
-                $('.userImg').attr('src', res.data.user_pic)
+            let {code,data} = res
+            if (code === 200) {
+                $('#userName').text(data.nickname)
+                $('.userImg').attr('src',data.user_pic)
             }
             return
         }

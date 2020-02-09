@@ -156,12 +156,12 @@
         // })
         getAndShow();
         function getAndShow(){
-            category.get().then(function(res){
+            category.get().then( res => {
             console.log(res);
             // 2.渲染数据
             // 2.1这里我们用模板引擎
             // template固定写法
-            var htmlStr = template('tmp_cate',res)
+            let htmlStr = template('tmp_cate',res)
             console.log(htmlStr);
             //把html结构显示在tb中
             $('#tb').html(htmlStr)
@@ -172,7 +172,7 @@
         // 这里用到了bootstrap的模态框，会在页面中弹出一个对话框来
         // 2.1点击添加按钮，收集用户信息，简单判断
         // 2.2发请求，根据反馈后续操作
-        $('#model_add').click(function(){
+        $('#model_add').click( () => {
             var name = $('#name').val().trim()
             var slug = $('#slug').val().trim()
 
@@ -183,9 +183,10 @@
             console.log(name,slug);
 
             // 发请求，调用添加方法
-            category.add(name,slug).then(function(res){
+            category.add(name,slug).then( res => {
                 console.log(res);
-                if (res.code===200) {
+                let {code,msg} = res
+                if (code===200) {
                     // 添加成功
                     // 1.清空用户输入
                     $('#name').val('')
@@ -196,7 +197,7 @@
                     getAndShow();
                 }
                 else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
             
@@ -215,17 +216,18 @@
         $('#tb').on('click','.del',function(){
             // alert('1')
             // 想要获取这个id，必须生成按钮时先设置自定义属性，然后再在这儿获取data-id
-            var id = $(this).attr('data-id')
+            let id = $(this).attr('data-id')
             // 2.请求ajax接口，根据反馈做后续动作
-            category.del(id).then(function(res){
+            category.del(id).then( res => {
                 console.log(res);
-                if (res.code === 200) {
+                let {code,msg} = res
+                if (code === 200) {
                     // 删除成功
                     getAndShow();
                 }
                 //删除不成功
                 else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         })
@@ -237,9 +239,9 @@
         // 3. 用户修改后，点击保存，发请求，做后续操作
         $('#tb').on('click','.edit',function(){
             // 1.弹出模态框前要 取出当前要编辑的内容，通过在设置模板引擎时我们设置的自定义属性来获取相应的值
-            var id = $(this).attr('data-id')
-            var name = $(this).attr('data-name')
-            var slug = $(this).attr('data-slug')
+            let id = $(this).attr('data-id')
+            let name = $(this).attr('data-name')
+            let slug = $(this).attr('data-slug')
             // 2.将取出的值赋给模态框相应的input框中
             $('#edit_id').val(id)
             $('#edit_name').val(name)
@@ -248,11 +250,11 @@
             $('#editModal').modal('show')
         })
         // 4.点击保存按钮，保存修改
-        $('#model_save').click(function(){
+        $('#model_save').click( () => {
             // 4.1点击后获取三个值
-            var id = $('#edit_id').val().trim()
-            var new_name = $('#edit_name').val().trim()
-            var new_slug = $('#edit_slug').val().trim()
+            let id = $('#edit_id').val().trim()
+            let new_name = $('#edit_name').val().trim()
+            let new_slug = $('#edit_slug').val().trim()
             // 4.2简单判断
             if(new_name.length === 0 || new_slug.length === 0){
                 alert('不能为空')
@@ -261,9 +263,10 @@
             // 5.发请求，找借口
             // 这里需要找到对应的input的id值，但是原文没有，需要我们手写添加一个方便我们调用，但是添加了又不能让用户随意更改，所以添加后隐藏掉即可
             else{
-                category.edit(id,new_name,new_slug).then(function(res){
+                category.edit(id,new_name,new_slug).then( res => {
                     // 5.1判断一下，code是200则代表成功
-                    if(res.code === 200){
+                    let {code,msg} = res
+                    if(code === 200){
                     // 5.2修改成功重新获取一下文章分类列表
                     getAndShow()
                     // 5.3并且隐藏掉模态框
@@ -271,7 +274,7 @@
                     }
                     // 5.4不成功则弹窗提示
                     else{
-                        alert(res.msg)
+                        alert(msg)
                     }
                    
                     

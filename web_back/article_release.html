@@ -103,36 +103,38 @@
         // 找到btnAdd按钮，添加点击事件
         // 1.1收集到用户信息，简单判断
         // 1.2调用接口，实现添加，根据反馈，做后续事件
-        $('#btnAdd').click(function () {
+        $('#btnAdd').click( () => {
             // alert(1)
             // 获取表单中用户填入的信息 form中必须有name属性，而且必须与接口中需要的参数保持一致
-            var fd = new FormData (document.getElementById('myform'))
+            let fd = new FormData (document.getElementById('myform'))
             // 手动添加一个参数
             fd.append('state','已发布')
             //获取富文本框中的内容，固定写法
             fd.set('content',tinyMCE.activeEditor.getContent())
-            article.add(fd).then(function (res) {
+            article.add(fd).then( res => {
                 console.log(res);
-                if (res.code === 201) {
+                let {code,msg} = res
+                if (code === 201) {
                     alert('发布成功')
                     // reset是表单(dom对象)的方法，用来重置表单内容
                     $('#myform')[0].reset();
                 }
                 else{
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         })
         
         // 2.获取文章类别，并显示
-        category.get().then(function (res) {
+        category.get().then( res => {
             console.log(res);
-            if (res.code === 200) {
-                var htmlStr = template('tmp',res)
+            let {code,msg} = res
+            if (code === 200) {
+                let htmlStr = template('tmp',res)
                 $('#selCategory').html(htmlStr)
             }
             else{
-                alert(res.msg)
+                alert(msg)
             }
         })
 
@@ -145,12 +147,12 @@
             // console.log(this.files[0]); //选中的第一个文件
             
             // 3.1.获取当前用户选中的那个文件
-            var curFile = this.files[0]
+            let curFile = this.files[0]
             // 这里有bug，所以需要简单判断一下，如果获取的效果是true有效的，才执行后面的代码
             if (curFile) {
                 // URL.createObjectURL(文件对象)是浏览器提供的一个方法，用于创建对象的 临时 链接地址
                 // 结果获取的是 blob:http://127.0.0.1:5500/2f161485-7e64-4064-a906-37af0ab30b23 临时的地址
-                var curFileUrl = URL.createObjectURL(curFile)
+                let curFileUrl = URL.createObjectURL(curFile)
                 console.log(curFileUrl);
     
                 // 3.2.将这个临时地址设置为imgPreview的src即可
