@@ -186,10 +186,10 @@
     
     <script>
         // 1.获取文章的类型并显示
-        category.get().then(function (res) {
+        category.get().then( res => {
             // console.log(res);
             //渲染结构
-            var htmlStr = template('cate',res)
+            let htmlStr = template('cate',res)
             //替换整个容器中的html
             $('#left_menu').html(htmlStr)
             // 追加一些内容
@@ -197,44 +197,47 @@
         })
 
         // 2.显示焦点图
-        article.getFouceFive().then(function (res) {
+        article.getFouceFive().then( res => {
             // console.log(res);
-            if (res.code === 200) {
+            let {code,msg} = res
+            if (code === 200) {
                 //渲染
-                var htmlStr = template('focus',res)
+                let htmlStr = template('focus',res)
                 // console.log(htmlStr);
                 $('#focus_list').html(htmlStr)
             }
             else{
-                alert(res.msg)
+                alert(msg)
             }
         })
     
         // 3.一周热门排行
-        article.getRank().then(function (res) {
+        article.getRank().then( res => {
             // console.log(res);
-            if (res.code === 200) {
+            let {code,msg} = res
+            if (code === 200) {
                 // 渲染到页面中
-                var htmlStr = template('tmpRank',res)
+                let htmlStr = template('tmpRank',res)
                 $('#rank').html(htmlStr)
             }
             else{
-                alert(res.msg)
+                alert(msg)
             }
             
         })
         
         // 4.最新资讯模块
-        article.getLastest().then(function (res) {
+        article.getLastest().then( res => {
             // console.log(res);
             //渲染
-            if (res.code === 200) {
+            let {code,msg} = res
+            if (code === 200) {
                 // 渲染到页面中
-                var htmlStr = template('tmpNews',res)
+                let htmlStr = template('tmpNews',res)
                 $('#news_list').html(htmlStr)
             }
             else{
-                alert(res.msg)
+                alert(msg)
             }
 
         })

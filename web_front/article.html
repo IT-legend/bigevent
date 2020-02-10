@@ -201,37 +201,73 @@
         {{/each}}
     </script>
     <script>
+        // 4.获取并展示评论
+        // 由于箭头函数没有变量提升，所以必须把改造后的函数放到页面最顶端
+        getComment=() => {
+            comment.get(id).then(res => {
+                console.log(res);
+                if (res.code === 200) {
+                    //对每一条留言中的dt进行格式化
+                    // 具体就是从时间戳转成相对时间
+                    res.data.forEach(item => {
+                        // item.relativeTime = 123
+                        item.dt = getTime(item.dt)
+                    })
+                    // 模板引擎渲染
+                    let htmlStr = template('tmp',res)
+                    $('#comment_list').html(htmlStr)
+                }
+            })
+        }
+
+        // 5.创建一个函数，专门把时间戳转成相对时间
+        // 由于箭头函数没有变量提升，所以必须把改造后的函数放到页面最顶端
+        getTime=dt => dayjs(dt).fromNow()
+
         dayjs.locale('zh-cn'); //全局中文设置
         // 使用插件
         dayjs.extend(dayjs_plugin_relativeTime);
 
         // 1.获取从地址栏中传入的文章编号
-        var id = location.search.substr(4)
+        let id = location.search.substr(4)
 
         // 2.调用接口，获取文章详情，渲染
-        article.getDetail(id).then(function(res){
+        article.getDetail(id).then( res => {
             console.log(res);
-            if(res.code === 200){
-                var t = res.data
-                $('#author').html(t.author)
-                $('#comment').html(t.comment)
-                $('#content').html(t.content)
-                $('#date').html(t.date)
-                $('#read').html(t.read)
-                $('#title').html(t.title)
-                $('#type_name').html(t.type_name)
+            let {code,data} = res
+            if(code === 200){
+                // 解构赋值优化
+                let {
+                    author,
+                    comment,
+                    content,
+                    date,
+                    read,
+                    title,
+                    type_name,
+                    prev,
+                    next} = data
+                $('#author').html(author)
+                $('#comment').html(comment)
+                $('#content').html(content)
+                $('#date').html(date)
+                $('#read').html(read)
+                $('#title').html(title)
+                $('#type_name').html(type_name)
                 // 上下文章导航
                 // 有的文章是第一篇或者最后一篇，需要判断一下，否则会报错
-                if (t.prev) {
-                    $('#prev').attr('href','./article.html?id='+t.prev.id)
-                    $('#prev').text(t.prev.title)
+                if (prev) {
+                    let {id,title} = prev
+                    $('#prev').attr('href','./article.html?id='+id)
+                    $('#prev').text(title)
                 }
                 else {
                     $('#prev').text('无')
                 }
-                if (t.next) {
-                    $('#next').attr('href','./article.html?id='+t.next.id)
-                    $('#next').text(t.next.title)
+                if (next) {
+                    let {id,title} = next
+                    $('#next').attr('href','./article.html?id='+id)
+                    $('#next').text(title)
                     
                 }
                 else {
@@ -243,16 +279,16 @@
 
         getComment() //4.获取并展示评论
         // 3.添加评论
-        $('#btn').click(function () {
+        $('#btn').click( () => {
             // alert(1)
             // 收集用户输入的信息
-            var name = $('#comment_name').val().trim()
-            var content = $('#comment_content').val().trim()
+            let name = $('#comment_name').val().trim()
+            let content = $('#comment_content').val().trim()
             if (name.length === 0 || content.length === 0) {
               alert('输入不能为空')
               return  
             }
-            comment.add(name,content,id).then(function (res) {
+            comment.add(name,content,id).then(res => {
                 console.log(res);
                 if (res.code === 200) {
                     // 评论成功，清空评论区
@@ -265,27 +301,6 @@
             })
         })
         
-        // 4.获取并展示评论
-        function getComment() {
-            comment.get(id).then(function (res) {
-                console.log(res);
-                if (res.code === 200) {
-                    //对每一条留言中的dt进行格式化
-                    // 具体就是从时间戳转成相对时间
-                    res.data.forEach(function(item) {
-                        // item.relativeTime = 123
-                        item.dt = getTime(item.dt)
-                    })
-                    // 模板引擎渲染
-                    var htmlStr = template('tmp',res)
-                    $('#comment_list').html(htmlStr)
-                }
-            })
-        }
-
-        // 5.创建一个函数，专门把时间戳转成相对时间
-        function getTime(dt) {
-            return dayjs(dt).fromNow()
-        }
+        
     </script>
 </html>

@@ -186,82 +186,86 @@
     </script>
     
     <script>
+        getAndShow=() => {
+
+        article.getList(id,curPage).then(res => {
+        // console.log(res);
+        // 2.3 res.pages表示当前查询条件得到的数据的总页数
+
+        //2.4 数据渲染-模板引擎
+        let htmlStr = template('tmpNews',res)
+        console.log(htmlStr);
+        $('#list').html(htmlStr) 
+        // 启动懒加载
+        $('.img').lazyload()
+        // 2.5 优化：如果只有一页，则不需要显示分页条
+        if(res.pages <=1){
+        return
+        }
+        // 2.6 分页插件的基础代码
+        $('#pagination').twbsPagination({
+        initiateStartPageClick:false, //插件初始化时不要触发第一次click事件
+        totalPages: res.pages, //总页数
+        visiblePages: 6, //可见页数的按钮数量
+        first:'首页',
+        prev:'上一页',
+        next:'下一页',
+        last:'尾页',
+        onPageClick:function(event,page) {
+            // 2.7 page是当前用户点击的页码
+            // 点击后更新全局变量，重新查询
+            // alert(page);
+            curPage = page
+            //2.8 再次调用方法
+            getAndShow();
+        }
+        });
+        })
+
+        }
+
         // 1.文章列表获取以及高亮显示当前类别
         // 1.2从地址栏中获取id值
-        var id = window.location.search.substr(4)
+        let id = window.location.search.substr(4)
         // 1.3显示导航菜单，并把当前文章的类别高亮显示
         // 获取文章的类型并显示
-        category.get().then(function (res) {
+        category.get().then( res => {
             // 实现高亮，这里需要补一个值
             // 补充的这个属性用来保存当前的类别编号，方便在上面模板引擎内部来获取这个编号，用以添加高亮类名
             res.curId = id
             // console.log(res);
             //渲染结构
-            var htmlStr = template('cate',res)
+            let htmlStr = template('cate',res)
             //替换整个容器中的html
             $('#left_menu').html(htmlStr)
             // 追加一些内容
             $('#level_two_menu').append(htmlStr)
             // 与当前id进行比较，找到当前要显示在页面上的栏目标题
-            res.data.forEach(function(item){
-                if(item.id == id){
-                    $('#cateName').html(item.name)
+            res.data.forEach(item => {
+                let {id,name} = item
+                if(id == id){
+                    $('#cateName').html(name)
                 }
             })
         })
 
         // 2.实现列表页内容的显示
         // 2.1 根据当前类型id取出文章信息并渲染，这里有分页
-        var curPage = 1; //2.2设置一个全局变量：当前要取回来第几页的文章，方便下面分页的调用
+        let curPage = 1; //2.2设置一个全局变量：当前要取回来第几页的文章，方便下面分页的调用
         getAndShow();
-        function getAndShow(){
-
-            article.getList(id,curPage).then(function (res) {
-            // console.log(res);
-           // 2.3 res.pages表示当前查询条件得到的数据的总页数
-
-            //2.4 数据渲染-模板引擎
-            var htmlStr = template('tmpNews',res)
-            console.log(htmlStr);
-            $('#list').html(htmlStr) 
-            // 启动懒加载
-            $('.img').lazyload()
-        // 2.5 优化：如果只有一页，则不需要显示分页条
-        if(res.pages <=1){
-            resturn
-        }
-        // 2.6 分页插件的基础代码
-        $('#pagination').twbsPagination({
-            initiateStartPageClick:false, //插件初始化时不要触发第一次click事件
-            totalPages: res.pages, //总页数
-            visiblePages: 6, //可见页数的按钮数量
-            first:'首页',
-            prev:'上一页',
-            next:'下一页',
-            last:'尾页',
-            onPageClick:function(event,page) {
-                // 2.7 page是当前用户点击的页码
-                // 点击后更新全局变量，重新查询
-                // alert(page);
-                curPage = page
-                //2.8 再次调用方法
-                getAndShow();
-            }
-        });
-        })
-
-        }
+        
         
         // 3.列表页，热门排行 id就是当前类别的编号，传入即可
-        article.getRank(id).then(function(res){
+        article.getRank(id).then(res => {
             // console.log(res);
-            if (res.code === 200) {
+            let {code,msg} = res
+            if (code === 200) {
                 // 渲染到页面中
-                var htmlStr = template('tmpRank',res)
+                let htmlStr = template('tmpRank',res)
                 $('#rank').html(htmlStr)
             }
             else{
-                alert(res.msg)
+                alert(msg)
             }
         })
         
