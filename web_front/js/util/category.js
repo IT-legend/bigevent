@@ -7,28 +7,14 @@
 // 定义category，将所有与列表有关的方法都写在这个js文件中
 
 
-var category = {
+const category = {
     // 1.获取文章类别管理接口
-    get:function(){
-        return $.get(APILIST.category_get)
-    },
+    get:() => $.get(APILIST.category_get),
     // 2.添加文章类别分类
-    add:function(name,slug){
-        return $.post(APILIST.category_add,{'name':name,'slug':slug})
-    },
+    add:(name,slug) => $.post(APILIST.category_add,{name,slug}),
     // 3.删除文章类别分类
-    del:function(id){
-        return $.post(APILIST.category_del,{
-            'id':id
-        })
-    },
+    del:id => $.post(APILIST.category_del,{id}),
     // 4.编辑文章类别分类
-    edit:function(id,name,slug){
-        return $.post(APILIST.category_edit,{
-            'id':id,
-            'name':name,
-            'slug':slug
-        })
-    },
+    edit:(id,name,slug) => $.post(APILIST.category_edit,{id,name,slug}),
 
 }

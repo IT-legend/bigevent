@@ -5,12 +5,12 @@
 // 1.自己的地址
 // var BASEURL = 'http://192.168.5.5:8000' 
 // 2.如果当前服务就就是在自己的电脑上，就可以直接写成localhost
-var BASEURL = 'http://localhost:8000' 
+const BASEURL = 'http://localhost:8000' 
 // 3.老师买的地址，只有在老师运行后端时可用
 // var BASEURL = 'http://39.99.130.17:8000' 
 
 // 用来保存所有的接口信息
-var APILIST = {
+const APILIST = {
     // 1.获取文章类别分类
     category_get: BASEURL + '/category',
     // 2.获取焦点图

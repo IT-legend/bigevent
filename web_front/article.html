@@ -206,10 +206,11 @@
         getComment=() => {
             comment.get(id).then(res => {
                 console.log(res);
-                if (res.code === 200) {
+                let {code,data} = res
+                if (code === 200) {
                     //对每一条留言中的dt进行格式化
                     // 具体就是从时间戳转成相对时间
-                    res.data.forEach(item => {
+                    data.forEach(item => {
                         // item.relativeTime = 123
                         item.dt = getTime(item.dt)
                     })
@@ -291,6 +292,7 @@
             comment.add(name,content,id).then(res => {
                 console.log(res);
                 if (res.code === 200) {
+                    alert('发表成功')
                     // 评论成功，清空评论区
                     $('#comment_name').val('')
                     $('#comment_content').val('')

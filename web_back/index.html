@@ -140,8 +140,9 @@
             // console.log(res);
             let {code,data} = res
             if (code === 200) {
-                $('#userName').text(data.nickname)
-                $('.userImg').attr('src',data.user_pic)
+                let {nickname,user_pic} = data
+                $('#userName').text(nickname)
+                $('.userImg').attr('src',user_pic)
             }
             return
         }
